@@ -1,0 +1,32 @@
+<!DOCTYPE struts PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+          "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+
+<struts>
+
+	<package name="shiro" extends="json-default,struts-default"
+		namespace="/shiro">
+		<action name="login" class="com.dy.sensor.shiro.action.ShiroLoginAction"
+			method="login">
+			<!-- jsp版本 -->
+			<result name="success">/pages/my_console.jsp</result>
+			<result name="error">/pages/login.jsp</result>
+			<result name="toIndex">/pagesV2.0/main/index.html</result>
+
+			<!-- flex版本 -->
+<!--				<result name="success">/pages/success.jsp</result>-->
+<!--				<result name="error">/pages/false.jsp</result>-->
+		</action>
+		<action name="logout" class="com.dy.sensor.shiro.action.ShiroLoginAction"
+			method="logout">
+			<result name="success">/pages/login.jsp</result>
+			<result name="error">/pages/login.jsp</result>
+		</action>
+		
+		<!-- 跳转到系统主页 -->
+		<action name="index" class="com.dy.sensor.shiro.action.ShiroLoginAction"
+			method="index">
+			<result name="toIndex">/pagesV2.0/main/index.jsp</result>
+		</action>
+	</package>
+</struts>

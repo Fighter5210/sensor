@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	配置说明：
+	module标签描述：一个module标签作为一个业务模块。
+	module属性描述：
+		class：业务模块对应的业务实现类路径。
+		moduleCode：业务模块编码。
+		moduleName：业务模块名字，以供【系统操作日志】功能显示所用。
+	module子标签operate描述：一个operate标签是作为module模块要记录的操作。
+	operate属性描述：
+		operateType：操作类型，目前支持INSERT、UPDATE、DELETE、SPECIAL这四种操作。
+					 其中INSERT、UPDATE、DELETE显而易见为新增、修改和删除。
+					 SPECIAL是特殊的操作类型，需要定义拦截的方法名（interceptMethod属性）和获取日志的方法名（recordLog属性）。
+		operateName：操作名称，以供【系统操作日志】功能显示所用。
+		startsWith：拦截业务方法开头的字母。
+		interceptMethod：拦截的方法名称，当operateType为SPECIAL时，这个属性不能为空。
+		logMethod：获取日志的方法名称，当operateType为SPECIAL时，这个属性不能为空。
+		paramOrder：此属性代表拦截的方法的【第几个】参数传递给获取日志的方法，从0开始数第几个。
+					如果此属性不设置，则将拦截的方法所有参数都传递给获取日志的方法。
+		pkId：是业务对象的主键Id，是提供给业务方法method的参数。此属性对【修改】和【删除】操作有效。
+		getBeanMethod：对业务实现类class的业务方法，此方法功能是根据业务对象的主键Id获取业务对象的方法。此属性对【修改】和【删除】操作有效。
+		businessName：是业务对象中的业务名称属性名。此属性对【删除】操作有效。
+ -->
+<modules>
+
+	<!-- 系统管理-start -->
+	<module class="com.dy.sensor.sys.service.impl.UserServiceImpl"
+		moduleCode="SYS_USER" moduleName="用户管理">
+		<operate operateType="INSERT" operateName="用户新增/修改"
+			interceptMethod="saveUser" />
+		<operate operateType="DELETE" operateName="用户删除"
+			interceptMethod="deleteUser" pkId="userId" getBeanMethod="findUserById"
+			businessName="userId" />
+	</module>
+
+
+	<module class="com.dy.sensor.sys.service.impl.SysOrganizationServiceImpl"
+		moduleCode="SYSTEM_SYSORGANIZATION" moduleName="部门管理 ">
+		<operate operateType="INSERT" operateName="部门新增/修改"
+			interceptMethod="save" getBeanMethod="load" pkId="orgId" />
+
+		<operate operateType="DELETE" operateName="部门删除"
+			interceptMethod="delete" getBeanMethod="load" pkId="orgId" businessName="orgId" />
+	</module>
+
+	
+	<module class="com.dy.sensor.sys.service.impl.SysRoleServiceImpl" moduleCode="SYS_ROLE" moduleName="角色管理">
+		<operate operateType="INSERT" operateName="角色新增" interceptMethod="saveSysRolePo"/>
+		<operate operateType="UPDATE" operateName="角色修改" interceptMethod="updateSysRolePo" pkId="roleId" getBeanMethod="findSysRoleByRoleId"/>
+		<operate operateType="DELETE" operateName="角色删除" interceptMethod="deleteSysRolePoByRoleId" pkId="roleId" getBeanMethod="findSysRoleByRoleId" businessName="roleName"/>
+	</module>
+	
+	<module class="com.dy.sensor.sys.service.impl.SysMenuServiceImpl" moduleCode="SYS_MENU" moduleName="菜单管理">
+		<operate operateType="INSERT" operateName="菜单新增/修改" interceptMethod="save" pkId="id" getBeanMethod="load"/>
+		<operate operateType="DELETE" operateName="菜单删除" interceptMethod="delete" pkId="id" getBeanMethod="load" businessName="menuName"/>
+	</module>
+	
+	<module class="com.git.auto.system.service.impl.DicServiceImpl" moduleCode="SYS_DIC" moduleName="数据字典管理">
+		<operate operateType="INSERT" operateName="数据字典新增" interceptMethod="saveDic"/>
+		<operate operateType="UPDATE" operateName="数据字典修改" interceptMethod="updateDic" pkId="dicId" getBeanMethod="findDicById"/>
+		<operate operateType="DELETE" operateName="数据字典删除" interceptMethod="deleteDic" pkId="dicId" getBeanMethod="findDicById" businessName="dicName"/>
+		<operate operateType="INSERT" operateName="数据类型字典新增" interceptMethod="saveDicType"/>
+		<operate operateType="UPDATE" operateName="数据类型字典修改" interceptMethod="updateDicType" pkId="dicTypeCode" getBeanMethod="findDicTypeByCode"/>
+		<operate operateType="DELETE" operateName="数据类型字典删除" interceptMethod="deleteDicType" pkId="dicTypeCode" getBeanMethod="findDicTypeByCode" businessName="dicTypeName"/>
+	</module>
+	
+	<module class="com.git.auto.system.service.impl.SysConfigServiceImpl" moduleCode="SYS_CONFIG" moduleName="核心配置管理">
+		<operate operateType="INSERT" operateName="系统参数新增" interceptMethod="save"/>
+		<operate operateType="UPDATE" operateName="系统参数修改" interceptMethod="update" pkId="paramId" getBeanMethod="view"/>
+		<operate operateType="DELETE" operateName="系统参数删除" interceptMethod="delete" pkId="paramId" getBeanMethod="view" businessName="paramName"/>
+	</module>
+	
+
+	<!-- 系统管理-end -->
+
+	<!-- 公共资源-start -->
+
+	<module class="com.git.auto.system.service.impl.ClassifyServiceImpl"
+		moduleCode="SYSTEM_CLASSIFY" moduleName="执行分类管理 ">
+		<operate operateType="INSERT" operateName="执行分类新增/修改"
+			interceptMethod="addClassify" getBeanMethod="selClassifyByClassifyId"
+			pkId="classifyId" />
+		<operate operateType="DELETE" operateName="执行分类删除"
+			interceptMethod="deleteClassify" getBeanMethod="selClassifyByClassifyId"
+			pkId="classifyId" businessName="classifyId" />
+	</module>
+
+	<module class="com.git.auto.system.service.impl.ScriptServiceImpl"
+		moduleCode="SYSTEM_SCRIPT" moduleName="脚本管理 ">
+		<operate operateType="INSERT" operateName="脚本新增"
+			interceptMethod="insertScriptFile" getBeanMethod="selCommonScriptById"
+			pkId="scriptId" />
+
+		<operate operateType="UPDATE" operateName="脚本修改"
+			interceptMethod="updateScriptFile" getBeanMethod="selCommonScriptById"
+			pkId="scriptId" />
+
+		<operate operateType="DELETE" operateName="脚本删除"
+			interceptMethod="delete" getBeanMethod="selCommonScriptById" pkId="scriptId"
+			businessName="scriptId" />
+	</module>
+
+	<module class="com.git.auto.system.service.impl.SoftwareServiceImpl"
+		moduleCode="SYSTEM_SOFTWARE" moduleName="软件包管理 ">
+		<operate operateType="INSERT" operateName="软件包新增"
+			interceptMethod="insertSoftwarePackage" />
+
+		<operate operateType="UPDATE" operateName="软件包修改"
+			interceptMethod="updateObj" getBeanMethod="selSoftwarePackageById"
+			pkId="softwarePackageId" />
+
+		<operate operateType="DELETE" operateName="软件包删除"
+			interceptMethod="delete" getBeanMethod="selSoftwarePackageById" pkId="softwarePackageId"
+			businessName="softwarePackageId" />
+	</module>
+
+	<module class="com.git.auto.system.service.impl.ApplicationServiceImpl"
+		moduleCode="SYSTEM_APPLICATION" moduleName="应用系统管理 ">
+		<operate operateType="INSERT" operateName="应用系统新增"
+			interceptMethod="insertAppInfo" />
+
+		<operate operateType="UPDATE" operateName="应用系统修改"
+			interceptMethod="updateObj" getBeanMethod="selObjById" pkId="appId" />
+
+		<operate operateType="DELETE" operateName="应用系统删除"
+			interceptMethod="delete" getBeanMethod="selObjById" pkId="appId"
+			businessName="appId" />
+	</module>
+
+	<!-- 公共资源-end -->
+
+
+	<!-- 例行维护-start -->
+	<module class="com.git.auto.maintenance.service.impl.MaintPlanServiceImpl"
+		moduleCode="MAINTAIN_PLAN" moduleName="维护计划">
+		<operate operateType="INSERT" operateName="新增计划"
+			interceptMethod="addPlan" />
+		<operate operateType="INSERT" operateName="复制计划"
+			interceptMethod="copyPlan" />
+
+		<operate operateType="UPDATE" operateName="修改计划"
+			interceptMethod="updatePlan" getBeanMethod="initPlanInfo" pkId="planId" />
+
+		<operate operateType="DELETE" operateName="删除计划"
+			interceptMethod="delPlan" getBeanMethod="initPlanInfo" pkId="planId"
+			businessName="planId" />
+	</module>
+	<module class="com.git.auto.maintenance.service.impl.MaintTaskServiceImpl"
+		moduleCode="MAINTAIN_TASK" moduleName="维护任务">
+		<operate operateType="INSERT" operateName="新增任务"
+			interceptMethod="addTask" />
+
+		<operate operateType="UPDATE" operateName="修改任务"
+			interceptMethod="updateTask" getBeanMethod="initTaskInfo" pkId="taskId" />
+
+		<operate operateType="DELETE" operateName="删除任务"
+			interceptMethod="delTask" getBeanMethod="initTaskInfo" pkId="taskId"
+			businessName="taskId" />
+	</module>
+	<module class="com.git.auto.maintenance.service.impl.MaintTemplateServiceImpl"
+		moduleCode="MAINTAIN_TEMPLATE" moduleName="维护模板 ">
+		<operate operateType="INSERT" operateName="新增模板"
+			interceptMethod="addTemplate" />
+
+		<operate operateType="UPDATE" operateName="修改模板"
+			interceptMethod="updateTemplate" getBeanMethod="initTemplateInfo" pkId="templateId" />
+
+		<operate operateType="DELETE" operateName="删除模板"
+			interceptMethod="delTemplate" getBeanMethod="initTemplateInfo" pkId="templateId"
+			businessName="templateId" />
+	</module>
+	<!-- 例行维护-end -->
+
+	<!-- 软件维护-start -->
+	<module class="com.git.auto.softwaremaintenance.service.impl.SoftwareInstallHistoryServiceImpl" moduleCode="HISTORY_MANAGE" moduleName="软件维护任务管理 ">
+		<operate operateType="INSERT" operateName="新增任务" interceptMethod="saveHistoryParam"/>
+		<operate operateType="UPDATE" operateName="修改任务" interceptMethod="updateHistoryParam" pkId="historyId" getBeanMethod="getHistoryParamByKey" />
+		<operate operateType="DELETE" operateName="删除任务" interceptMethod="deleteHistoryInfo" pkId="historyId" getBeanMethod="getHistoryParamByKey" businessName="aliasName" />
+	</module>
+	<module class="com.git.auto.softwaremaintenance.service.impl.SoftwareMaintTemplateServiceImpl" moduleCode="SOFTWARE_TEMPLATE_MANAGE" moduleName="软件维护模板管理 ">
+		<operate operateType="INSERT" operateName="新增软件维护模板" interceptMethod="insertTemplate"/>
+		<operate operateType="UPDATE" operateName="修改软件维护模板" interceptMethod="updateTemplate" pkId="templateId" getBeanMethod="getTemplateInfo" />
+		<operate operateType="DELETE" operateName="删除软件维护模板" interceptMethod="deleteTemplate" pkId="templateId" getBeanMethod="getTemplateInfo" businessName="templateName" />
+	</module>
+	<!-- 软件维护-end -->
+
+	<!-- 运行巡检-模板管理-start -->
+	<module class="com.git.auto.check.service.impl.HealthTempServiceImpl"
+		moduleCode="TEMPLATE_MANAGE" moduleName="巡检模板管理 ">
+		<operate operateType="INSERT" operateName="新增模板"
+			interceptMethod="save"/>
+
+		<operate operateType="UPDATE" operateName="修改模板"
+			interceptMethod="update" getBeanMethod="view"
+			pkId="templateId" />
+
+		<operate operateType="DELETE" operateName="删除模板"
+			interceptMethod="delete" getBeanMethod="view"
+			pkId="templateId" businessName="templateId" />
+	</module>
+	<!-- 运行巡检-模板管理-end -->
+	
+	<!-- 运行巡检-任务管理-start -->
+	<module class="com.git.auto.check.service.impl.HealthTaskServiceImpl"
+		moduleCode="CHECK_MANAGE" moduleName="巡检任务管理 ">
+		<operate operateType="INSERT" operateName="新增任务"
+			interceptMethod="save"/>
+
+		<operate operateType="DELETE" operateName="删除任务"
+			interceptMethod="delete" getBeanMethod="view"
+			pkId="taskId" businessName="taskId" />
+			
+		<operate operateType="INSERT" operateName="任务运行"
+			interceptMethod="run"/>
+	</module>
+	<!-- 运行巡检-任务管理-end -->
+
+	<!-- 信息采集-start -->
+	<!-- 信息采集-end -->
+
+</modules>

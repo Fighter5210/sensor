@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/ibatis-2-config.dtd">
+<sqlMap namespace="barCodes">
+	<typeAlias alias="barCodesPo" type="com.dy.sensor.product.model.po.BarCodesPo" />
+	<typeAlias alias="barCodesVo" type="com.dy.sensor.product.model.vo.BarCodesVo" />
+	
+   <!--添加产品条形码信息 -->
+	<insert id="insertBarCodesList" parameterClass="java.util.List"> 
+		<![CDATA[ 
+			insert into TB_BAR_CODES(
+				product_id,address_code,bar_code
+			) values
+		]]>
+		 <iterate conjunction=",">
+			<![CDATA[
+				(#barCodesList[].productId#,#barCodesList[].addressCode#,#barCodesList[].barCode#)
+			]]>
+		</iterate>
+	</insert>
+	
+	<!--获得产品条形码信息 -->
+	<select id="getBarCodesByProductId" parameterClass="Map"
+		resultClass="barCodesVo">
+		<![CDATA[
+		  select 
+		    t.id id,
+		    t.product_id productId,
+		    t.address_code addressCode,
+		    t.bar_code barCode 
+			from TB_BAR_CODES t 
+			where
+				t.product_id = #productId#
+		]]>
+	</select>
+</sqlMap>

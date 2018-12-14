@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- START SNIPPET: beans -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<bean id="loginAction" class="com.dy.sensor.sys.action.LongAction"
+		scope="prototype">
+		<property name="menuService" ref="menuService" />
+		<!-- <property name="permissionService" ref="permissionService" /> -->
+	</bean>
+
+	<bean id="menuDao" class="com.dy.sensor.sys.dao.impl.MenuDaoImpl">
+		<property name="dataSource" ref="jndiDataSource" />
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="menuService" class="com.dy.sensor.sys.service.impl.MenuServiceImpl">
+		<property name="menuDao" ref="menuDao" />
+		<property name="userDao" ref="userDaoImpl" />
+	</bean>
+
+	<!-- 角色维护 -->
+	<bean id="sysRoleAction" class="com.dy.sensor.sys.action.SysRoleAction"
+		scope="prototype">
+		<property name="sysRoleService" ref="sysRoleService" />
+	</bean>
+	<bean id="sysRoleDAO" class="com.dy.sensor.sys.dao.impl.SysRoleDAOImpl">
+		<property name="dataSource" ref="jndiDataSource" />
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="sysRoleService" class="com.dy.sensor.sys.service.impl.SysRoleServiceImpl">
+		<property name="sysRoleDAO" ref="sysRoleDAO" />
+	</bean>
+
+	<!-- 用户维护 -->
+	<bean id="userAction" class="com.dy.sensor.sys.action.UserAction"
+		scope="prototype">
+		<property name="userService" ref="userServiceImpl" />
+	</bean>
+
+	<bean id="userServiceImpl" class="com.dy.sensor.sys.service.impl.UserServiceImpl">
+		<property name="userDao" ref="userDaoImpl" />
+	</bean>
+
+	<bean id="userDaoImpl" class="com.dy.sensor.sys.dao.impl.UserDaoImpl">
+		<property name="dataSource" ref="jndiDataSource" />
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<!-- 组织维护 -->
+
+	<bean id="sysOrganizationDao" class="com.dy.sensor.sys.dao.impl.SysOrganizationDaoImpl">
+		<property name="dataSource" ref="jndiDataSource" />
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="sysOrganizationService"
+		class="com.dy.sensor.sys.service.impl.SysOrganizationServiceImpl">
+		<property name="sysOrganizationDao" ref="sysOrganizationDao" />
+	</bean>
+	<bean id="sysOrganizationAction" class="com.dy.sensor.sys.action.SysOrganizationAction"
+		scope="prototype">
+		<property name="sysOrganizationService" ref="sysOrganizationService" />
+	</bean>
+
+	<!-- 菜单维护 开始 -->
+	<bean id="sysMenuDao" class="com.dy.sensor.sys.dao.impl.SysMenuDaoImpl">
+		<property name="dataSource" ref="jndiDataSource" />
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="sysMenuService" class="com.dy.sensor.sys.service.impl.SysMenuServiceImpl">
+		<property name="sysMenuDao" ref="sysMenuDao" />
+	</bean>
+	<bean id="sysMenuAction" class="com.dy.sensor.sys.action.SysMenuAction"
+		scope="prototype">
+		<property name="sysMenuService" ref="sysMenuService" />
+		<property name="sysRoleService" ref="sysRoleService" />
+	</bean>
+	<!-- 菜单维护 结束 -->
+
+
+
+	<!-- 日志管理 -->
+	<bean id="LogAction" class="com.dy.sensor.common.action.LogAction"
+		scope="prototype">
+		<property name="logService" ref="LogServiceImpl" />
+	</bean>
+	<bean id="LogDaoImpl" class="com.dy.sensor.common.dao.impl.LogDaoImpl">
+		<property name="dataSource" ref="jndiDataSource" />
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="LogServiceImpl" class="com.dy.sensor.common.service.impl.LogServiceImpl">
+		<property name="logDao" ref="LogDaoImpl" />
+	</bean>
+	
+	<!-- 参数维护 开始 -->
+	<bean id="sysParamDao" class="com.dy.sensor.sys.dao.impl.SysParamDaoImpl">
+		<property name="dataSource" ref="jndiDataSource" />
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="sysParamService" class="com.dy.sensor.sys.service.impl.SysParamServiceImpl">
+		<property name="sysParamDao" ref="sysParamDao" />
+	</bean>
+	<bean id="sysParamAction" class="com.dy.sensor.sys.action.SysParamAction"
+		scope="prototype">
+		<property name="sysParamService" ref="sysParamService" />
+	</bean>
+</beans>

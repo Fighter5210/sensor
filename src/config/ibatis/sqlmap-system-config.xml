@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/ibatis-2-config.dtd">
+
+<sqlMap namespace="checkParam">
+	<typeAlias alias="paramPo" type="com.git.auto.system.model.po.SysConfigPo" />
+	<typeAlias alias="parameterVo" type="com.git.auto.system.model.vo.SysConfigVo" />
+	<!-- 初始化参数 -->
+	<sql id="selectParamList">
+
+		SELECT
+		PARAM_ID as paramId,
+		PARAM_NAME as paramName,
+		PARAM_VALUE as
+		paramValue,
+		REMARK as remark,
+		IS_ENCRYPTION as isEncryption
+		FROM
+		SYS_CONFIG
+		WHERE
+		IS_ACTIVE = 'Y'
+
+		<dynamic prepend=" and ">
+			<isNotEmpty property="paramName" prepend=" and ">
+				PARAM_NAME like
+				concat('%', #paramName#, '%')
+			</isNotEmpty>
+
+		</dynamic>
+	</sql>
+	<select id="selectParamTotal" parameterClass="hashMap"
+		resultClass="Integer">
+		select count(1) from (
+		<include refid="selectParamList" />
+		) as recordTable
+	</select>
+	<select id="selectParamtPage" parameterClass="hashMap"
+		resultClass="hashMap" remapResults="true">
+		<include refid="selectParamList" />
+		$_orderby$
+		limit #startIndex# ,#pageSize#
+
+	</select>
+	<!-- 修改时获得数据 -->
+	<select id="param.getParamById" parameterClass="java.util.Map"
+		resultClass="paramPo">
+		SELECT
+		PARAM_ID as paramId,
+		PARAM_NAME as paramName,
+		PARAM_VALUE as paramValue,
+		REMARK as remark,
+		IS_ENCRYPTION as
+		isEncryption
+		FROM
+		SYS_CONFIG
+		WHERE
+		IS_ACTIVE = 'Y'
+		AND PARAM_ID =
+		#paramId#
+	</select>
+
+
+	<!-- 保存任务 -->
+	<insert id="param.insert" parameterClass="paramPo">
+		INSERT INTO
+		SYS_CONFIG(
+		PARAM_ID,
+		PARAM_NAME,
+		PARAM_VALUE,
+		IS_ENCRYPTION,
+		IS_ACTIVE,
+		REMARK,CREATE_USER,CREATE_DATETIME
+		)
+		VALUES
+		(
+		#paramId#,
+		#paramName#,
+		#paramValue#,
+		#isEncryption#,
+		#isActive#,
+		#remark#,#createUser#,#createDatetime#)
+	</insert>
+	<!-- 修改后更新任务 -->
+
+	<update id="param.update" parameterClass="paramPo">
+		UPDATE SYS_CONFIG
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="paramName">
+				PARAM_NAME = #paramName#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="paramValue">
+				PARAM_VALUE =
+				#paramValue#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="paramValue">
+				REMARK = #remark#
+			</isNotEmpty>
+
+
+		</dynamic>
+		WHERE PARAM_ID=#paramId#
+	</update>
+	<!-- 删除后更新 -->
+	<update id="param.delete" parameterClass="paramPo">
+	 <![CDATA[
+	  UPDATE  SYS_CONFIG 
+	  SET
+		IS_ACTIVE = #isActive#
+	  WHERE  PARAM_ID = #paramId#
+	 ]]>
+	</update>
+	<!-- 判断是否有同名的参数 -->
+	<select id="param.compare" parameterClass="java.lang.String"
+		resultClass="paramPo">
+	  <![CDATA[ SELECT 
+	   PARAM_NAME as paramName
+	   FROM SYS_CONFIG 
+	   WHERE PARAM_NAME=#paramName#
+	   ]]>
+
+	</select>
+
+
+	<!-- 通过参数名称查询参数值 -->
+	<select id="selectParamValueByParamName" parameterClass="java.lang.String"
+		resultClass="paramPo">
+		SELECT
+		PARAM_VALUE as paramValue
+		FROM
+		SYS_CONFIG
+		WHERE
+		IS_ACTIVE = 'Y'
+		AND PARAM_NAME =
+		#paramName#
+	</select>
+</sqlMap>	

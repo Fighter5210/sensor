@@ -1,0 +1,314 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*--------------------main主体外框样式样式------------------------*/
+#main {
+	padding: 100px 0 0 184px;
+	position: relative;
+	font-family: "宋体";
+}
+
+/*面包屑导航样式*/
+#nav {
+	height: 22px;
+	padding: 10px 0 0 45px;
+	font-size: 12px;
+	color: #585858;
+	background: url(../images/mainTop_bg.jpg) repeat-x;
+	position: relative;
+	top: 0px;
+}
+
+#nav .home {
+	position: absolute;
+	top: 8px;
+	left: 18px;
+	width: 16px;
+	height: 16px;
+	background: url(../images/home.gif) no-repeat;
+}
+
+#nav span {
+	padding: 0 2px;
+}
+
+#nav .active {
+	color: #438eb9;
+}
+
+/*main里面的内容的样式*/
+.mainWrap {
+	font-size: 13px;
+	padding: 4px 20px 0;
+	overflow: hidden;
+	background: #fff;
+}
+/*main里面标题样式*/
+.conWrap {
+	padding: 0 16px 10px;
+	background: #fff;
+}
+
+.item {
+	padding-top: 16px;
+	overflow: hidden;
+}
+
+.quickKey {
+	width: 60%;
+}
+
+.quickNew {
+	width: 39%;
+	height: 152px;
+	border: 1px solid #dadee1;
+	background: url(../images/main_itemBg1.jpg) no-repeat 20px 20px #FBFBFB;
+}
+
+.mainBt {
+	color: 676767;
+	height: 33px;
+	line-height: 33px;
+	padding-left: 20px;
+	position: relative;
+	border: 1px solid #dadee1;
+	background: url(../images/main_btbg.jpg) repeat-x;
+}
+
+.keyBox {
+	height: 119px;
+	border: 1px solid #dadee1;
+	border-top: 0;
+	padding: 0 20px 20
+}
+
+.keyBox li {
+	width: 68px;
+	height: 109px;
+	margin: 0 4.8%;
+	text-align: center;
+	overflow: hidden;
+	margin-top: 10px;
+}
+
+.keyBox li a:link,.keyBox li a:visited {
+	padding-top: 6px;
+	font-weight: bold;
+	color: #01435D;
+	text-decoration: none;
+}
+
+.keyBox li a:hover {
+	color: #01435D;
+}
+
+.newBox {
+	height: 80px;
+	margin: 20px 20px 20px 80px;
+	padding: 14px 18px 18px 18px;
+	background: #f2f2f2;
+}
+
+.newBox li {
+	width: 100%;
+	clear: both;
+	height: 22px;
+	line-height: 22px;
+	margin: 3px 0;
+}
+
+.newBox li span {
+	display: inline-block;
+	width: 70%;
+}
+
+.newBox li a {
+	margin-left: 10px;
+	text-decoration: none;
+	float: right;
+}
+
+.numberTu {
+	width: 49.2%;
+	height: 280px;
+}
+
+.photo {
+	border: 1px solid #dadee1;
+	border-top: 0;
+	padding-left: 3.4%;
+}
+
+.newWrap1 {
+	width: 33%;
+	height: 290px;
+	float: left;
+	margin-right: 1.5%;
+}
+
+.newWrap2 {
+	width: 36%;
+	float: left;
+	height: 290x;
+	float: left;
+}
+
+.newWrap3 {
+	width: 28%;
+	height: 290px;
+	float: left;
+	margin-right: 1.5%;
+}
+
+.newBt {
+	width: 94px;
+	height: 36px;
+	border-top: 3px solid #149BDF;
+	border-right: 1px solid #dadee1;
+	border-left: 1px solid #dadee1;
+	border-bottom: 0;
+	position: absolute;
+	top: -5px;
+	left: -1px;
+	background: #fff;
+	z-index: 999;
+	font-weight: bold;
+	font-size: 14px;
+	padding-left: 20px;
+}
+
+.newText {
+	height: 242px;
+	border: 1px solid #dadee1;
+	border-top: 0;
+}
+
+.newIcon {
+	padding: 20px 0 10px;
+	height: 66px;
+}
+
+.newIcon li a{
+	color: #fff;
+}
+.newIcon li a:hover {
+	text-decoration: underline;
+}
+
+.newIcon li {
+	width: 35px;
+	height: 51px;
+	margin: 0 3.4%;
+	background: #0CF;
+	text-align: center;
+	padding: 15px 16px 0 16px;
+	font-weight: bold;
+	color: #fff;
+	line-height: 16px;
+}
+
+.newIcon li.newIcon1 {
+	background: url(../images/newIcin1.jpg) no-repeat;
+}
+
+.newIcon li.newIcon2 {
+	background: url(../images/newIcin2.jpg) no-repeat;
+}
+
+.newIcon li.newIcon3 {
+	background: url(../images/newIcin3.jpg) no-repeat;
+}
+
+.newIcon li.newIcon4 {
+	background: url(../images/newIcin4.jpg) no-repeat;
+}
+
+.newList {
+	padding: 10px 20px 0;
+}
+
+.newList li {
+	height: 27px;
+	line-height: 27px;
+	border-bottom: 1px solid #E6E6E6;
+	margin-bottom: 4px;
+	width: 100%;
+}
+
+.newDat {
+	padding-right: 20px;
+}
+
+.newList a:link,.newList a:visited {
+	color: #676767;
+}
+
+.newList a:hover {
+	color: #676767;
+}
+
+.newMore {
+	width: 100%;
+	height: 20px;
+	text-align: right;
+	clear: both;
+	padding: 20px 0;
+}
+
+.newMore a:link,.newMore a:visited {
+	background: #4DBFFE;
+	padding: 5px 10px;
+	color: #fff;
+	margin-right: 20px;
+}
+
+.newMore a:hover {
+	color: #fff;
+}
+
+.shoutNew {
+	overflow: hidden;
+	padding: 10px 20px 20px 20px;
+}
+
+.shoutNew li {
+	width: 40%;
+	float: left;
+	height: 28px;
+	line-height: 28px;
+	margin-right: 24px;
+}
+
+.shoutNew li a:link,.shoutNew li a:visited {
+	color: #FF6704;
+}
+
+.shoutNew li a:hover {
+	color: #FF6704;
+}
+
+.bgText {
+	height: 108px;
+	border-top: 1px solid #dadee1;
+	background: #FFFDF1;
+	padding: 20px 30px 10px 20px;
+}
+
+.bgText li {
+	height: 29px;
+	line-height: 29px;
+}
+
+.bgText li a:link,.bgText li a:visited {
+	color: #FF6704;
+}
+
+.bgText li a:hover {
+	color: #FF6704;
+}
+
+.newList .aMore {
+	display: inline-block;
+	width: 60px;
+	float: right;
+}

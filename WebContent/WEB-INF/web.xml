@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>sensor</display-name>
+    <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+    	/WEB-INF/classes/config/spring/applicationContext-*.xml
+    </param-value>
+  </context-param>
+  <listener>
+    <listener-class>
+        org.springframework.web.context.ContextLoaderListener
+    </listener-class>
+  </listener>
+  <listener>
+	<description>WebApplicationListener</description>
+	<listener-class>com.dy.sensor.foundation.common.WebApplicationListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>
+       com.dy.sensor.common.action.ContextLoaderListener
+    </listener-class>
+  </listener>
+  	      <listener>
+        <listener-class>flex.messaging.HttpFlexSession</listener-class>
+    </listener>
+<!--         添加shiro权限认证和授权 -->
+   <filter> 
+ 		<filter-name>shiroFilter</filter-name> 
+ 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class> 
+ 		<init-param> 
+ 			<param-name>targetFilterLifecycle</param-name> 
+ 			<param-value>true</param-value> 
+ 		</init-param> 
+ 	</filter> 
+ 	<filter-mapping> 
+ 		<filter-name>shiroFilter</filter-name> 
+ 		<url-pattern>/*</url-pattern> 
+ 		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+ 	</filter-mapping> 
+  
+  <filter>
+    <filter-name>struts2</filter-name>
+    <filter-class>
+        	org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter 
+     </filter-class>
+     <init-param>
+           <param-name>config</param-name>
+           <param-value>
+				struts-default.xml,
+				struts-plugin.xml,
+				config/struts/struts.xml,
+				config/struts/struts-sys.xml,
+				config/struts/struts-shiro.xml,
+				config/struts/struts-product.xml
+			</param-value>
+     </init-param>
+     
+  </filter>
+  <filter-mapping>
+    <filter-name>struts2</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <jsp-config>
+	<taglib>
+        <taglib-uri>/icms-ui</taglib-uri>
+        <taglib-location>/WEB-INF/tld/icms-ui.tld</taglib-location>
+	</taglib>
+  </jsp-config>
+  <welcome-file-list>
+ 		<welcome-file>/pagesV2.0/main/login.jsp</welcome-file> 
+  </welcome-file-list>
+  <!-- CXF 配置 -->
+	<servlet>
+        <servlet-name>CXFServlet</servlet-name>
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+ 
+    <servlet-mapping>
+        <servlet-name>CXFServlet</servlet-name>
+        <url-pattern>/services/*</url-pattern>
+    </servlet-mapping> 
+    	<!-- 配置session超时时间，单位分钟 -->
+	<session-config>
+		<session-timeout>20</session-timeout>
+	</session-config>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/pages/error/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>401</error-code>
+		<location>/pages/error/401.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/pages/error/500.jsp</location>
+	</error-page>
+	
+    <!-- 初始化定时任务 -->
+	<!-- servlet>
+		<servlet-name>TimerTask</servlet-name>
+		<servlet-class>
+			com.dy.sensor.common.servlet.TimerTaskServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet> -->
+</web-app>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- START SNIPPET: beans -->
+<!-- Common Config For Project -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx.xsd 
+	">
+
+
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="jndiDataSource" />
+	</bean>
+
+	<bean id="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="10" />
+		<property name="maxPoolSize" value="50" />
+		<property name="queueCapacity" value="1000" />
+		<property name="keepAliveSeconds" value="300" />
+	</bean>
+
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>
+				classpath:config/ibatis/SqlMapConfig.xml
+			</value>
+		</property>
+		<property name="dataSource" ref="jndiDataSource" />
+	</bean>
+
+	<bean id="commonDAO" class="com.dy.sensor.common.dao.impl.CommonDAOImpl">
+		<property name="dataSource" ref="jndiDataSource" />
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref bean="jndiDataSource" />
+		</property>
+	</bean>
+
+
+	<!-- aop代理设置 -->
+	<aop:config>
+		<!-- 任意service包或子包中的类的任意方法 -->
+		<aop:pointcut id="allServiceMethods"
+			expression="execution(* com.dy.sensor..service..*Impl.*(..)) || execution(* com.git.auto..service..*Impl.*(..))" />
+		<aop:advisor advice-ref="defaultTransactionAdvice"
+			pointcut-ref="allServiceMethods" />
+			
+		<aop:aspect id="logAspect" ref="icmsInterceptor" order="2">
+			<aop:around method="doBasicProfiling" pointcut-ref="allServiceMethods"/>
+		</aop:aspect>
+		
+	</aop:config>
+
+	<tx:advice id="defaultTransactionAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" read-only="false" />
+
+			<tx:method name="save*" isolation="DEFAULT" propagation="REQUIRED"
+				rollback-for="com.dy.sensor.common.exception.RollbackableBizException"
+				timeout="1000" />
+			<tx:method name="insert*" isolation="DEFAULT" propagation="REQUIRED"
+				rollback-for="com.dy.sensor.common.exception.RollbackableBizException"
+				timeout="1000" />
+			<tx:method name="delete*" isolation="DEFAULT" propagation="REQUIRED"
+				rollback-for="com.dy.sensor.common.exception.RollbackableBizException"
+				timeout="1000" />
+			<tx:method name="update*" isolation="DEFAULT" propagation="REQUIRED"
+				rollback-for="com.dy.sensor.common.exception.RollbackableBizException"
+				timeout="1000" />
+			<tx:method name="remove*" isolation="DEFAULT" propagation="REQUIRED"
+				rollback-for="com.dy.sensor.common.exception.RollbackableBizException"
+				timeout="1000" />
+		</tx:attributes>
+	</tx:advice>
+
+
+
+	<bean id="icmsInterceptor" class="com.dy.sensor.common.interceptor.IcmsInterceptor">
+		<property name="logDao" ref="LogDaoImpl" />
+	</bean>
+
+</beans>

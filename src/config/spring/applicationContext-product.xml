@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- START SNIPPET: beans -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<!-- 产品管理 -->
+	<bean id="productAction" class="com.dy.sensor.product.action.ProductAction"
+		scope="prototype">
+		<property name="productService" ref="productServiceImpl" />
+		<property name="barCodesService" ref="barCodesServiceImpl" />
+		<property name="sysParamDao" ref="sysParamDao" />
+	</bean>
+
+	<bean id="productDaoImpl" class="com.dy.sensor.product.dao.impl.ProductDaoImpl">
+		<property name="dataSource" ref="jndiDataSource" />
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	
+	<bean id="productServiceImpl" class="com.dy.sensor.product.service.impl.ProductServiceImpl">
+		<property name="productDao" ref="productDaoImpl" />
+		<property name="sysParamDao" ref="sysParamDao" />
+	</bean>
+	
+	<!-- 产品条形码管理 -->
+
+	<bean id="barCodesServiceImpl" class="com.dy.sensor.product.service.impl.BarCodesServiceImpl">
+		<property name="barCodesDao" ref="barCodesDaoImpl" />
+	</bean>
+
+	<bean id="barCodesDaoImpl" class="com.dy.sensor.product.dao.impl.BarCodesDaoImpl">
+		<property name="dataSource" ref="jndiDataSource" />
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+</beans>

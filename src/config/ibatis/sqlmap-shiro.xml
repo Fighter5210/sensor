@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/ibatis-2-config.dtd">
+<sqlMap namespace="Shiro">
+	<typeAlias alias="sysUserPo" type="com.dy.sensor.sys.model.po.SysUserPo" />
+	<typeAlias alias="sysMenu" type="com.dy.sensor.sys.model.po.SysMenuPo" />
+
+	<resultMap id="sysMenuResult" class="sysMenu">
+		<result property="id" column="ID" />
+		<result property="menuName" column="MENU_NAME" />
+		<result property="menuCode" column="MENU_CODE" />
+		<result property="menuDesc" column="MENU_DESC" />
+		<result property="menuUrl" column="MENU_URL" />
+		<result property="parent.id" column="PARENT_ID" />
+		<result property="orderId" column="ORDER_ID" />
+		<result property="resourceType" column="RESOURCE_TYPE" />
+		<result property="isActive" column="IS_ACTIVE" />
+	</resultMap>
+
+	<!--获得用户信息 -->
+	<select id="Shiro.findUserByLoginName" parameterClass="java.lang.String"
+		resultClass="sysUserPo">
+		<![CDATA[
+		SELECT 
+		    us.user_id as userId,
+			us.org_id as orgId,
+			org.org_name as orgName,
+			us.first_name as firstName,
+			us.last_name as lastName,
+			us.login_name as loginName,
+			us.login_password  as loginPassword,
+			us.email as email,
+			us.phone as phone,
+			us.ip_address as ipAddress,
+			us.last_login as lastLogin,
+			us.user_type as userType,
+			us.create_user as createUser,
+			us.create_datetime as createDatetime,
+			syr.ROLE_ID as roleId
+		FROM
+			SYS_USER us
+		LEFT JOIN
+			SYS_ORGANIZATION org ON us.ORG_ID = org.ORG_ID
+		LEFT JOIN 
+			SYS_USER_ROLE syr ON us.USER_ID = syr.USER_ID 
+		WHERE
+			us.login_name = #loginName#
+		AND us.is_active = 'Y'
+		]]>
+	</select>
+
+	<select id="Shiro.userPermissions" resultMap="sysMenuResult"
+		parameterClass="java.lang.String">
+		SELECT a.*
+		FROM SYS_MENU a join SYS_MENU_ROLE b on a.id = b.MENU_ID 
+			join SYS_ROLE c on b.MENU_ID=c.ROLE_ID
+			join SYS_USER_ROLE d on c.ROLE_ID =d.ROLE_ID 
+			join SYS_USER e on d.USER_ID = e.USER_ID
+		where d.USER_ID = #userId#
+	</select>
+</sqlMap>

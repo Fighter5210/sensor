@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/ibatis-2-config.dtd">
+<sqlMap namespace="sys">
+	<typeAlias alias="sysParamPo" type="com.dy.sensor.sys.model.po.SysParamPo" />
+	<typeAlias alias="sysParamVo" type="com.dy.sensor.sys.model.vo.SysParamVo" />
+	
+   <!--更新系统参数 -->
+	<insert id="updateSysParam" parameterClass="sysParamPo"> 
+		<selectKey resultClass="java.lang.Integer" keyProperty="id" type="post">
+		SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		<![CDATA[ 
+			update SYS_PARAM set
+				comm_interval_time = #commIntervalTime#,
+				tem_allow_offset = $temAllowOffset$,
+				hum_allow_offset = $humAllowOffset$ 
+			where
+				ID = #id#
+		]]>
+	</insert>
+	
+	<!--查询系统参数 -->
+	<select id="getSysParamById" parameterClass="Map"
+		resultClass="sysParamVo">
+		<![CDATA[
+		  select 
+		    ID id,
+		    COMM_INTERVAL_TIME commIntervalTime,
+		    TEM_ALLOW_OFFSET temAllowOffset,
+		    HUM_ALLOW_OFFSET humAllowOffset 
+			from SYS_PARAM  
+			where
+				ID = #id#
+		]]>
+	</select>
+	
+</sqlMap>

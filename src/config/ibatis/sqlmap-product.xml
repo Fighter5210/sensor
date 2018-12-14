@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"http://www.ibatis.com/dtd/ibatis-2-config.dtd">
+<sqlMap namespace="product">
+	<typeAlias alias="productPo" type="com.dy.sensor.product.model.po.ProductPo" />
+	<typeAlias alias="productVo" type="com.dy.sensor.product.model.vo.ProductVo" />
+	<typeAlias alias="productDataVo" type="com.dy.sensor.product.model.vo.ProductDataVo" />
+	
+   <!--添加产品信息 -->
+	<insert id="insertProduct" parameterClass="productPo"> 
+		<selectKey resultClass="java.lang.Integer" keyProperty="id" type="post">
+		SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		<![CDATA[ 
+			insert into TB_PRODUCT (
+				p_date,p_number,p_batch
+			) values (
+				#pDate#,#pNumber#,#pBatch#
+			)
+		]]>
+	</insert>
+	<!--更新用户信息 -->
+	<update id="updateProduct" parameterClass="productPo">
+		<![CDATA[ 
+			update TB_PRODUCT set
+				temperature_std = #temperatureStd#,
+				humidity_std = #humidityStd# 
+			where
+				  id = #id#
+		]]>
+	</update>
+	
+	<!--获得产品信息 -->
+	<select id="getProductById" parameterClass="Map"
+		resultClass="productVo">
+		<![CDATA[
+		  select 
+		    p.id id,
+		    p.p_date pDate,
+		    p.p_number pNumber,
+		    p.p_batch pBatch,
+		    p.temperature_std temperatureStd,
+		    p.humidity_std  humidityStd
+			from TB_PRODUCT p 
+			where
+				p.id = #productId#
+		]]>
+	</select>
+	
+	 <!--添加产品条数据信息 -->
+	<insert id="insertProductDataList" parameterClass="java.util.List"> 
+		<![CDATA[ 
+			insert into TB_PRODUCT_DATA(
+				product_id,p_date,p_batch,address_code,bar_code,temperature_std,temperature_data,temperature_offset,humidity_std,humidity_data,humidity_offset,is_over_tem_allow_offset,is_over_hem_allow_offset
+			) values
+		]]>
+		 <iterate conjunction=",">
+			<![CDATA[
+				(#list[].productId#,#list[].productDate#,#list[].productBatch#,#list[].addressCode#,#list[].barCode#,#list[].temperatureStd#,#list[].temperatureData#,#list[].temperatureOffset#,#list[].humidityStd#,#list[].humidityData#,#list[].humidityOffset#,#list[].isOverTemAllowOffset#,#list[].isOverHumAllowOffset#)
+			]]>
+		</iterate>
+	</insert>
+	
+	<!--获得产品及条形码信息 -->
+	<select id="getProductAndBarCodeByProductId" parameterClass="Map"
+		resultClass="productDataVo">
+		<![CDATA[
+		  select 
+		    p.id id,
+		    p.p_date productDate,
+		    p.p_batch productBatch,
+		    p.temperature_std temperatureStd,
+		    p.humidity_std  humidityStd,
+		    bc.address_code addressCode,
+		    bc.bar_code barCode
+			from TB_PRODUCT p,TB_BAR_CODES bc
+			where
+				p.id = #productId# and p.id = bc.product_id
+		]]>
+	</select>
+	
+	<sql id="selectProductList"> 
+		<![CDATA[
+		  select 
+		        t.id as id,
+				t.product_id as productId,
+				t.p_date as productDate,
+				t.p_batch as productBatch,
+				t.address_code as addressCode,
+				t.bar_code as barCode,
+				t.temperature_std  as temperatureStd,
+				t.temperature_data as temperatureData,
+				t.temperature_offset as temperatureOffset,
+				t.humidity_std as humidityStd,
+				t.humidity_data as humidityData,
+				t.humidity_offset as humidityOffset,
+				t.is_over_tem_allow_offset isOverTemAllowOffset,
+				t.is_over_hem_allow_offset isOverHumAllowOffset,
+				t.is_delete isDelete 
+			from TB_PRODUCT_DATA t 
+		]]>
+		WHERE 1=1 
+		<dynamic prepend=" and ">
+			<isNotEmpty property="barCode" prepend=" and ">
+				<![CDATA[t.bar_code like '%$barCode$%']]>
+			</isNotEmpty>
+			<isNotEmpty property="productDate" prepend=" and ">
+				<![CDATA[t.p_date like '%$productDate$%']]>
+			</isNotEmpty>
+			<isNotEmpty property="productBatch" prepend=" and ">
+				<![CDATA[t.p_batch like '%$productBatch$%']]>
+			</isNotEmpty>
+			<isNotEmpty property="isDelete" prepend=" and ">
+				<![CDATA[t.is_delete = #isDelete#]]>
+			</isNotEmpty>
+			<isEmpty property="isDelete" prepend=" and ">
+				<![CDATA[t.is_delete = 0]]>
+			</isEmpty>
+		</dynamic>
+		 order by t.id  desc
+	</sql>
+	
+	<select id="selectProductListTotal" parameterClass="hashMap"
+		resultClass="Integer">
+			select count(1) from (
+			<include refid="selectProductList" />
+			) as recordTable
+	</select>
+	
+	<select id="selectProductListPage" parameterClass="hashMap"
+		resultClass="productDataVo" remapResults="true">
+		<include refid="selectProductList" />
+		  limit #startIndex# ,#pageSize#
+	</select>
+    <delete id="deleteProductDataById" parameterClass="java.lang.String">
+		delete from tb_product_data where id=#productDataId#
+	</delete>
+	<update id="updateProductData" parameterClass="productDataVo">
+		update tb_product_data set
+		is_delete=#isDelete#
+		where id=#id# 
+	</update>
+</sqlMap>

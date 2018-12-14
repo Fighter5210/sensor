@@ -1,0 +1,1 @@
+ALTER TABLE tb_product_data ADD COLUMN `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除、1:已删除）' AFTER `is_over_hem_allow_offset`;

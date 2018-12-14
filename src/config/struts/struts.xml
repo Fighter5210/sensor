@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+          "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+	<!-- 当struts的配置文件修改后,系统是否自动重新加载该文件,默认值为false(生产环境下使用),开发阶段最好打开 -->
+	<constant name="struts.configuration.xml.reload" value="true" />
+	<!-- constant cfg -->
+	<constant name="struts.action.extension" value="do,action,ghtml" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.custom.i18n.resources" value="cfg.i18n.message" />
+	<!-- end constant cfg -->
+	<!-- <include file="struts-demo.xml"/> -->
+	<package name="icms-package" namespace="/"
+		extends="struts-default, json-default ">
+		<!-- 全局的 -->
+		<global-results>
+			<result name="main">/pages/mainFrame.jsp</result>
+			<result name="downLoad" type="stream">
+				<param name="contentType">text/plain</param>
+				<param name="contentDisposition">
+					attachment;fileName="${fileName}"
+				</param>
+				<param name="inputName">downloadFile</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</global-results>
+	</package>
+	<!-- 指定允许上传的文件最大字节数。是4G大小) -->
+	<constant name="struts.multipart.maxSize" value="4194304000" />
+
+	<!-- 设置上传文件的临时文件夹,默认使用javax.servlet.context.tempdir -->
+	<constant name="struts.multipart.saveDir" value="/tmp" />
+</struts>

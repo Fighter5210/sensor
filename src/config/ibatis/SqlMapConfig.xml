@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<settings
+	cacheModelsEnabled="true"
+	enhancementEnabled="true"
+	lazyLoadingEnabled="true"
+	maxRequests="100"
+	maxSessions="100"
+	maxTransactions="150"/>
+	
+	<sqlMap resource="config/ibatis/common/sqlmap-general.xml" />
+	<sqlMap resource="config/ibatis/common/sqlmap-page.xml" />
+	<sqlMap resource="config/ibatis/common/sqlmap-taglib.xml" />
+	
+	<sqlMap resource="config/ibatis/sqlmap-shiro.xml" /> 
+	<sqlMap resource="config/ibatis/sqlmap-sys-resource.xml" />
+	<sqlMap resource="config/ibatis/sqlmap-sys-role.xml" />
+	<sqlMap resource="config/ibatis/sqlmap-sys-user.xml" />
+	<sqlMap resource="config/ibatis/sqlmap-sys-organization.xml" />
+	
+	<sqlMap resource="config/ibatis/sqlmap-product.xml" />
+	<sqlMap resource="config/ibatis/sqlmap-barcodes.xml" />
+	<sqlMap resource="config/ibatis/sqlmap-sys-param.xml" />
+	
+</sqlMapConfig>

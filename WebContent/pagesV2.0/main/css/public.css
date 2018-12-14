@@ -1,0 +1,199 @@
+@charset "utf-8";
+/* CSS Document */
+/*全局样式*/
+body {
+	padding: 0;
+	margin: 0;
+	font-size: 12px;
+	font-family: "宋体", arial, serif;
+	color: #8A8A8A;
+	background-color: #fff;
+}
+
+h1,h2,h3,ul,li,dl,dt,dd,p,img,input,button {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	font-weight: normal;
+	list-style: none;
+	outline: none;
+}
+
+h2 {
+	font-family: "微软雅黑";
+	font-weight: bold;
+	color: #676767;
+	font-size: 14px;
+	letter-spacing: 1px;
+}
+
+p {
+	color: #0B0B0B;
+	letter-spacing: 1px;
+}
+
+li {
+	float: left;
+}
+
+a:link,a:visited {
+	color: #288AB9;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #288AB9;
+}
+
+input {
+	width: 154px;
+	height: 25px;
+	line-height: 25px;
+	padding: 3px 10px 3px 42px;
+	margin-bottom: 22px;
+	display: block;
+	color: #666;
+	font-size: 12px;
+	background: none;
+	overflow: hidden;
+	_margin-bottom: 19px;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.homeBody {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+}
+
+.fotn14 {
+	font-size: 14px;
+}
+
+.bold {
+	font-weight: bold;
+}
+/*--------------------header样式------------------------*/
+.header {
+	height: 100px;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 1;
+	-webkit-box-shadow: 0 2px 6px #d7d8db;
+	-moz-box-shadow: 0 2px 6px #d7d8db;
+	box-shadow: 0 2px 6px #d7d8db;
+	border-bottom: 1px solid #d7d8db;
+	z-index: 1;
+}
+
+.headerTop {
+	background: none repeat scroll 0 0 #3D94C9;
+	height: 68px;
+	width: 100%;
+}
+
+.logo {
+	background: url(../images/logo.png) no-repeat scroll 0 0 transparent;
+	height: 68px;
+	width: 871px;
+}
+
+.loginMsg {
+	height: 63px;
+	padding-top: 5px;
+	margin-right: 20px;
+}
+
+.loginMsg li {
+	height: 63px;
+	height: 63px;
+	cursor: pointer;
+	float: left;
+}
+
+.headerBot {
+	height: 24px;
+	padding: 8px 30px 0 180px;
+	background: url(../images/header_botBg.png) repeat-x;
+}
+
+.headerBot strong {
+	font-weight: normal;
+	color: #FD090B;
+	margin: 0 0px;
+}
+
+.headerBot .right strong {
+	background: url(../images/header_boticon1.jpg) no-repeat;
+	padding-left: 22px;
+}
+/*--------------------左侧菜单样式样式------------------------*/
+#side {
+	width: 183px;
+	height: 100%;
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	border-right: 1px solid #ccc;
+	font-family: "微软雅黑";
+	font-size: 14px;
+	font-weight: bold;
+	color: #3e3e3e;
+	background: #f7fcff;
+}
+
+.menu1 {
+	background: #f9f9f9;
+}
+
+.menu1 li {
+	width: 183px;
+	position: relative;
+	cursor: pointer;
+}
+
+.menu1 li span {
+	font-weight: bold;
+	display: block;
+	line-height: 31px;
+	padding-left: 60px;
+	border-bottom: 1px solid #fff;
+	background: #D4E6F0;
+	font-family: "微软雅黑";
+}
+
+.menu2 {
+	background: #f9f9f9;
+	border-bottom: #B6B6B6;
+}
+
+.menu2 li {
+	width: 123px;
+	height: 31px;
+	line-height: 30px;
+	font-size: 12px;
+	font-size: 12px;
+	padding-left: 60px;
+	background: #F0F9FE;
+}
+
+/*   鼠标点击一级菜单的样式   鼠标点击一级菜单的时候字体变颜色   */
+.menu1Active {
+	color: #005584;
+}
+
+/*   鼠标点击一级菜单的样式   鼠标点击一级菜单的时候字体变颜色   */
+.menu2 .menu2Active {
+	background: url(../images/menu3_bg.jpg) no-repeat;
+	color: #fff;
+}

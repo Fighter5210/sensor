@@ -1,0 +1,28 @@
+@CHARSET "UTF-8";
+/*面包屑导航样式*/
+#nav {
+	height: 24px;
+	padding: 8px 0 0 45px;
+	font-size: 12px;
+	color: #585858;
+	background: url(../../pagesV2.0/main/images/mainTop_bg.jpg) repeat-x;
+	position: relative;
+	top: 0px;
+}
+
+#nav .home {
+	position: absolute;
+	top: 8px;
+	left: 18px;
+	width: 16px;
+	height: 16px;
+	background: url(../../pagesV2.0/main/images/home.gif) no-repeat;
+}
+
+#nav span {
+	padding: 0 2px;
+}
+
+#nav .active {
+	color: #438eb9;
+}
